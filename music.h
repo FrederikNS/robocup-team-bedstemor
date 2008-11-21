@@ -24,6 +24,6 @@
 //Macro to reach other octaves
 #define notePitch(note,octave) ((note)<<(6-octave))
 
-void playNote(int tone, int octave, long int duration, int pin)
+void playNote(int tone, int octave, long int duration, int pin);
 
-void playMelody(int pin)
+void playMelody(int pin);
