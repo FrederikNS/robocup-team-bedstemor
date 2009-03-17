@@ -11,4 +11,4 @@
 void followLine();
 void collectSensorValues(int array[]);
 
-#endif /* MOTIONCONTROL_H_ */
+#endif

@@ -5,17 +5,9 @@
  *      Author: starswifter
  */
 
-
-/*
-int MINABLE = 9; //enable motor
-int MOTORR1 = 5;
-int MOTORR2 = 4;
-int MOTORL1 = 3;
-int MOTORL2 = 2;
-http://www.ikalogic.com/tut_line_sens_algo.php
- */
-
-#include "tempName.h"
+#include "sensors.h"
+#include "constants.h"
+#include "motors.h"
 
 void followLine() {
 	int sensor[8];
@@ -40,4 +32,6 @@ void followLine() {
 	if(right > maxSpeed) {
 		right = maxSpeed;
 	}
+	setLeftMotor(left,FORWARD);
+	setRightMotor(right,FORWARD);
 }
