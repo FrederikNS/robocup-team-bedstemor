@@ -5,9 +5,9 @@
  *      Author: starswifter
  */
 
-#ifndef TEMPNAME_H_
-#define TEMPNAME_H_
+#ifndef SENSORS_H_
+#define SENSORS_H_
 
 void fillSensorData(int array[]);
 
-#endif /* TEMPNAME_H_ */
+#endif

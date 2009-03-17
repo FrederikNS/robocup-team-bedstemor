@@ -1,7 +1,10 @@
-#ifndef PINS_H_
-#define PINS_H_
+#ifndef CONSTANTS_H_
+#define CONSTANTS_H_
 
 #include "wiring.h"
+
+#define REVERSE = 1;
+#define FORWARD = 0;
 
 const int enableMotor = 9;
 const int leftMotorSpeed = 5;

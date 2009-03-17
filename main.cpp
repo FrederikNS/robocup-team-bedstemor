@@ -8,8 +8,9 @@
 #include "WProgram.h"
 #include "motionControl.h"
 #include "wiring.h"
-#include "pins.h"
+#include "constants.h"
 
+//http://www.ikalogic.com/tut_line_sens_algo.php
 
 void setup() {
 	pinMode(leftMotorSpeed, OUTPUT);
