@@ -1,29 +1,34 @@
-#include "WProgram.h"
-#include "SoftwareSerial.h"
-#include "Print.h"
-#include "music.h"
+/*
+ * main2.cpp
+ *
+ *  Created on: Feb 19, 2009
+ *      Author: starswifter
+ */
 
-// variables
-int ledPin = 13;
-int speakerPin = 4;
-int analogValue = 0;
+#include "motionControl.h"
+#include "pins.h"
+#include <wiring.h>
 
-void setup(){
-	Serial.begin(9600);	// opens serial port, sets data rate to 9600 bps
-	
-	pinMode(speakerPin, OUTPUT); // sets the digital pin as output
+void setup() {
+	pinMode(leftMotorSpeed, OUTPUT);
+	pinMode(leftMotorDirection, OUTPUT);
+	pinMode(rightMotorSpeed, OUTPUT);
+	pinMode(rightMotorDirection, OUTPUT);
+	pinMode(enableMotor, OUTPUT);
+	pinMode(A, OUTPUT);
+	pinMode(B, OUTPUT);
+	pinMode(C, OUTPUT);
 }
 
-void loop(){
-	playMelody(speakerPin);
+void loop() {
+	followLine();
 }
-
-int main(void){
+/*
+int main() {
 	init();
 	setup();
-	for(;;)
+	for(;;) {
 		loop();
-	
-	//Return should never be reached
+	}
 	return 0;
-}
+}*/
