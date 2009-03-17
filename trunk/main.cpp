@@ -1,13 +1,15 @@
 /*
- * main.cpp
+ * main2.cpp
  *
  *  Created on: Feb 19, 2009
  *      Author: starswifter
  */
 
+#include "WProgram.h"
 #include "motionControl.h"
+#include "wiring.h"
 #include "pins.h"
-#include <wiring.h>
+
 
 void setup() {
 	pinMode(leftMotorSpeed, OUTPUT);
@@ -23,7 +25,6 @@ void setup() {
 void loop() {
 	followLine();
 }
-
 
 int main() {
 	init();
