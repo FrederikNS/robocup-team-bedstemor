@@ -1,5 +1,5 @@
 /*
- * main2.cpp
+ * main.cpp
  *
  *  Created on: Feb 19, 2009
  *      Author: starswifter
@@ -23,7 +23,8 @@ void setup() {
 void loop() {
 	followLine();
 }
-/*
+
+
 int main() {
 	init();
 	setup();
@@ -31,4 +32,4 @@ int main() {
 		loop();
 	}
 	return 0;
-}*/
+}
