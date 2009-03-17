@@ -7,12 +7,12 @@
 
 #include "pins.h"
 
-void fillSensorData(int * array[]) {
+void fillSensorData(int array[]) {
 	int i = 0;
 	for(i = 0; i < 8; i++) {
-		digitalWrite(A, Aarrat[i]);
-		digitalWrite(B, Barrat[i]);
-		digitalWrite(C, Carrat[i]);
+		digitalWrite(A, Aarray[i]);
+		digitalWrite(B, Barray[i]);
+		digitalWrite(C, Carray[i]);
 		array[i] = analogRead(getSensorData);
 	}
 }

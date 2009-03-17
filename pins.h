@@ -1,7 +1,7 @@
 #ifndef PINS_H_
 #define PINS_H_
 
-#include <wiring.h>
+#include "wiring.h"
 
 const int enableMotor = 9;
 const int leftMotorSpeed = 5;

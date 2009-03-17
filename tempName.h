@@ -8,6 +8,6 @@
 #ifndef TEMPNAME_H_
 #define TEMPNAME_H_
 
-void fillSensorData(int * array[]);
+void fillSensorData(int array[]);
 
 #endif /* TEMPNAME_H_ */
