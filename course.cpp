@@ -8,4 +8,3 @@
  */
 
 #include "course.h"
-
