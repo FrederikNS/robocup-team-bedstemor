@@ -7,7 +7,8 @@
  *
  */
 
-#include "Music.h"
+#include "music.h"
+#include "constants.h"
 
 void playNote(int tone, int octave, long int duration, int pin){
 	long elapsedTime = 0;

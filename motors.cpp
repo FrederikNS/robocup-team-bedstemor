@@ -23,7 +23,6 @@ void setRightMotor(int speed, int direction) {
 	analogWrite(rightMotorSpeed, speed);
 }
 
-
 void setBothMotors(int speed, int direction) {
 	digitalWrite(rightMotorDirection, direction);
 	digitalWrite(leftMotorDirection, direction);
