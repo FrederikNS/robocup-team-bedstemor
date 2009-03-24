@@ -3,21 +3,21 @@
 
 #include "wiring.h"
 
-const int reverse = 1;
-const int forward = 0;
+#define REVERSE 1
+#define FORWARD 0
 
-const int speakerPin = -1;
+#define speakerPin -1 //placeholder
 
-const int enableMotor = 9;
-const int leftMotorSpeed = 5;
-const int leftMotorDirection = 4;
-const int rightMotorSpeed = 3;
-const int rightMotorDirection = 2;
+#define enableMotor 9
+#define leftMotorSpeed 5
+#define leftMotorDirection 4
+#define rightMotorSpeed 3
+#define rightMotorDirection 2
 
-const int A = 8;
-const int B = 10;
-const int C = 12;
-const int getSensorData = 0;
+#define A 8
+#define B 10
+#define C 12
+#define getSensorData 0
 
 const int Aarray[] = {LOW,HIGH,LOW,HIGH,LOW,LOW,HIGH,HIGH};
 const int Barray[] = {LOW,HIGH,HIGH,LOW,HIGH,LOW,LOW,HIGH};
