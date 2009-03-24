@@ -19,7 +19,7 @@ void followLine() {
 	int left = 0;
 	int right = 0;
 	int factor = maxSpeed / 4.5;
-	
+
 	for(i = 0; i < 8; i++) {
 		line += sensor[i] * (i+1);
 		sum += sensor[i];
@@ -31,7 +31,7 @@ void followLine() {
 		left = maxSpeed;
 	if(right > maxSpeed)
 		right = maxSpeed;
-	
-	setLeftMotor(left,forward);
-	setRightMotor(right,reverse);
+
+	setLeftMotor(left,FORWARD);
+	setRightMotor(right,FORWARD);
 }
