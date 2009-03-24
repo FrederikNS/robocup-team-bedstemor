@@ -32,6 +32,6 @@ void followLine() {
 	if(right > maxSpeed)
 		right = maxSpeed;
 	
-	setLeftMotor(left,FORWARD);
-	setRightMotor(right,FORWARD);
+	setLeftMotor(left,forward);
+	setRightMotor(right,reverse);
 }

@@ -3,10 +3,10 @@
 
 #include "wiring.h"
 
-#define REVERSE 1;
-#define FORWARD 0;
+const int reverse = 1;
+const int forward = 0;
 
-const int speakerPin = 0;
+const int speakerPin = -1;
 
 const int enableMotor = 9;
 const int leftMotorSpeed = 5;
