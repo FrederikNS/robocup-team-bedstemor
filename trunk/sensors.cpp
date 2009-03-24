@@ -5,7 +5,7 @@
  *      Author: starswifter
  */
 
-#include "pins.h"
+#include "constants.h"
 
 void fillSensorData(int array[]) {
 	int i = 0;
