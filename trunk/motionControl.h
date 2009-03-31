@@ -8,7 +8,6 @@
 #ifndef MOTIONCONTROL_H_
 #define MOTIONCONTROL_H_
 
-void followLine();
-void collectSensorValues(int array[]);
+void findLine(float array[3]);
 
 #endif

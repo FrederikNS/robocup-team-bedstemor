@@ -24,7 +24,7 @@ void setup() {
 }
 
 void loop() {
-	followLine();
+	//findLine();
 }
 
 int main() {
