@@ -8,6 +8,6 @@
 #ifndef MOTIONCONTROL_H_
 #define MOTIONCONTROL_H_
 
-void findLine(float array[3]);
+void findLine(float array[3], int senso[8]);
 
 #endif
