@@ -14,10 +14,18 @@
 #define rightMotorSpeed 3
 #define rightMotorDirection 2
 
+#define enableLight 13
+
 #define A 8
 #define B 10
 #define C 12
 #define getSensorData 0
+
+#define north 0
+#define south 1
+#define east 2
+#define west 3
+#define northwest 4
 
 const int Aarray[] = {LOW,HIGH,LOW,HIGH,LOW,LOW,HIGH,HIGH};
 const int Barray[] = {LOW,HIGH,HIGH,LOW,HIGH,LOW,LOW,HIGH};
