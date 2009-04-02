@@ -6,11 +6,7 @@
  *
  */
 
-#define north 0
-#define south 1
-#define east 2
-#define west 3
-#define northwest 4
+#include "constants.h" 
 
 const char paths[18][5] = {
 //{from cross,to cross,side of "from cross",side of "to cross",# of gates}

@@ -9,8 +9,7 @@
 #include "constants.h"
 #include "motors.h"
 
-void findLine(float result[3], int senso[8]) {
-	int sensor[8];
+void findLine(float result[3], int sensor[8]) {
 	fillSensorData(sensor);
 	int high = 900;
 	int i = 0;
@@ -73,7 +72,6 @@ void findLine(float result[3], int senso[8]) {
 	} else {
 		result[0] = 0;
 	}*/
-	senso = sensor;
 }
 
 /*
