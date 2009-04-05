@@ -8,6 +8,7 @@
 #ifndef MOTIONCONTROL_H_
 #define MOTIONCONTROL_H_
 
-void findLine(float array[3], int senso[8]);
+void findLine(float array[3], int sensor[8]);
+void calculateMotorSpeedFromLine(float line);
 
 #endif

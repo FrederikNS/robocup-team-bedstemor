@@ -24,11 +24,6 @@ void setRightMotor(int speed, int direction) {
 }
 
 void setBothMotors(int speed, int direction) {
-	digitalWrite(rightMotorDirection, direction);
-	digitalWrite(leftMotorDirection, direction);
-	if(direction) {
-		speed = 256-speed;
-	}
-	analogWrite(rightMotorSpeed, speed);
-	analogWrite(leftMotorSpeed, speed);
+	setRightMotor(speed, direction);
+	setLeftMotor(speed, direction);
 }
