@@ -8,7 +8,7 @@
 
 #include "constants.h" 
 
-const char paths[18][5] = {
+char paths[18][5] = {
 //{from cross,to cross,side of "from cross",side of "to cross",# of gates}
 /*1*/{0,1,east,south,3},
 /*2*/{1,0,west,east,1},

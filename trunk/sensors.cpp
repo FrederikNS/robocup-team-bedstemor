@@ -1,3 +1,4 @@
+
 /*
  * tempName.cpp
  *
@@ -15,4 +16,8 @@ void fillSensorData(short array[8]) {
 		digitalWrite(C, Carray[i]);
 		array[i] = analogRead(getSensorData);
 	}
+}
+
+bool gateSensor() {
+	return false;
 }

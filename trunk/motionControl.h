@@ -8,8 +8,8 @@
 #ifndef MOTIONCONTROL_H_
 #define MOTIONCONTROL_H_
 
-void findLine(float array[3], short sensor[8]);
-void calculateMotorSpeedFromLine(float line);
+void findLine(char* situation, short lineLocations[2], short sensor[8]);
+void calculateMotorSpeedFromLine(short line, short speedLimit);
 void turnDegrees(short degree);
 void stop(char direction);
 

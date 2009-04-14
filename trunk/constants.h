@@ -6,13 +6,17 @@
 #define REVERSE 1
 #define FORWARD 0
 
+#define cross 128
+
+#define startButton 7
+
 #define speakerPin -1 //placeholder
 
 #define enableMotor 9
-#define leftMotorSpeed 5
-#define leftMotorDirection 4
-#define rightMotorSpeed 3
-#define rightMotorDirection 2
+#define leftMotorSpeedPin 5
+#define leftMotorDirectionPin 4
+#define rightMotorSpeedPin 3
+#define rightMotorDirectionPin 2
 
 #define enableLight 13
 

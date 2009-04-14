@@ -9,11 +9,11 @@
 #include "constants.h"
 #include "motors.h"
 
-#define  maxSpeed 255
-#define  factor multiplyFixed(maxSpeed,14)
-#define  degreePerSecond toFixedPoint(0) //placeholder
+#define maxSpeed 255
+#define factor multiplyFixed(speedLimit,14)
+#define degreePerSecond toFixedPoint(0) //placeholder
 
-void findLine(short result[3], short sensor[8]) {
+void findLine(char* situation, short lineLocations[2], short sensor[8]) {
 	fillSensorData(sensor);
 	char i = 0;
 	char lowest1 = 0;
@@ -60,13 +60,13 @@ void findLine(short result[3], short sensor[8]) {
 		end2 = 7;
 	}
 	if(start1 <= 0 && end1 >= 7) { //crossroad
-		result[0] = -3;
+		*situation = -3;
 	} else if(start1 == 0 && end1 >= 4) { //turn left
-		result[0] = -1;
+		*situation = -1;
 	} else if(start1 <= 3 && end1 == 7) { //turn right
-		result[0] = -2;
+		*situation = -2;
 	} else if(start2 == -1) { //forward
-		result[0] = 1;
+		*situation = 1;
 		i = lowest1 - 1;
 		temp = lowest1 + 1;
 		if(i == -1) {
@@ -82,9 +82,9 @@ void findLine(short result[3], short sensor[8]) {
 		if(!sum) {
 			sum = 1;
 		}
-		result[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
+		lineLocations[0] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 	} else if(end2 != -1) { //two roads
-		result[0] = 2;
+		*situation = 2;
 		for(i = start1; i <= end1; i++) {
 			temp = sensor[i];
 			if(temp < value1) {
@@ -114,7 +114,7 @@ void findLine(short result[3], short sensor[8]) {
 		if(!sum) {
 			sum = 1;
 		}
-		result[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
+		lineLocations[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 		line = 0;
 		sum = 0;
 		i = lowest2 - 1;
@@ -132,22 +132,22 @@ void findLine(short result[3], short sensor[8]) {
 		if(!sum) {
 			sum = 1;
 		}
-		result[2] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
+		lineLocations[2] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 	} else {
-		result[0] = 0;
+		situation = 0;
 	}
 }
 
-void calculateMotorSpeedFromLine(short line) {
+void calculateMotorSpeedFromLine(short line, short speedLimit) {
 	int rightMotorSpeed = 0;
 	int leftMotorSpeed = 0;
 	rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+2);
 	leftMotorSpeed = fromFixedPoint(multiplyFixed(line,factor)+2);
-	if(rightMotorSpeed > maxSpeed) {
-		rightMotorSpeed = maxSpeed;
+	if(rightMotorSpeed > speedLimit) {
+		rightMotorSpeed = speedLimit;
 	}
-	if(leftMotorSpeed > maxSpeed) {
-		leftMotorSpeed = maxSpeed;
+	if(leftMotorSpeed > speedLimit) {
+		leftMotorSpeed = speedLimit;
 	}
 	setLeftMotor(leftMotorSpeed, FORWARD);
 	setRightMotor(rightMotorSpeed, FORWARD);
