@@ -12,7 +12,10 @@
 
 #define maxSpeed 255
 #define factor multiplyFixed(speedLimit,14)
-#define degreePerSecond toFixedPoint(0) //placeholder
+#define degreeToTickFactor 4.4*1000
+
+volatile int leftTick = 0;
+volatile int rightTick = 0;
 
 void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	fillSensorData(sensor);
@@ -185,6 +188,14 @@ void calculateMotorSpeedFromLine(int line, int speedLimit) {
 	setRightMotor(rightMotorSpeed, FORWARD);*/
 }
 
+void leftInterrupt() {
+	leftTick--;
+}
+
+void rightInterrupt() {
+	rightTick--;
+}
+
 void turnDegrees(int degree) {
 	while(degree > 360) {
 		degree -= 360;
@@ -198,7 +209,8 @@ void turnDegrees(int degree) {
 		if(degree < 0) {
 			degree = -degree;
 		}
-		time = multiplyFixed(toFixedPoint(degree),degreePerSecond);
+		degreeToTickFactor;
+		leftTick = rightTick = ((degree*degreeToTickFactor)/1000)/2;
 		setLeftMotor(255,FORWARD);
 		setRightMotor(255,REVERSE);
 	} else {
@@ -207,13 +219,15 @@ void turnDegrees(int degree) {
 			degree = -degree;
 		}
 		degree -= 180;
-		time = multiplyFixed(toFixedPoint(degree),degreePerSecond);
+		rightTick = leftTick = ((degree*degreeToTickFactor)/1000)/2;
 		setLeftMotor(255,REVERSE);
 		setRightMotor(255,FORWARD);
 	}
+	interrupts();
 	while(time != 0) {
-		time--;
+		time = leftTick + rightTick;
 	}
+	noInterrupts();
 	setLeftMotor(0,FORWARD);
 	setRightMotor(0,FORWARD);
 }

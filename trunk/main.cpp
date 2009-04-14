@@ -19,9 +19,9 @@
 
 void setup() {
 	Serial.begin(9600); //Set serial baud rate
-	
+
 	//Assign pins
-	pinMode(leftMotorSpeedPin, OUTPUT); 
+	pinMode(leftMotorSpeedPin, OUTPUT);
 	pinMode(leftMotorDirectionPin, OUTPUT);
 	pinMode(rightMotorSpeedPin, OUTPUT);
 	pinMode(rightMotorDirectionPin, OUTPUT);
@@ -32,7 +32,11 @@ void setup() {
 	pinMode(enableLight, OUTPUT);
 	pinMode(startButton, INPUT);
 	pinMode(getDistanceData, INPUT);
-	
+	pinMode(INTERRUPT_R,INPUT);
+	pinMode(INTERRUPT_L,INPUT);
+	attachInterrupt(1,leftInterrupt,RISING);
+	attachInterrupt(0,rightInterrupt,RISING);
+	noInterrupts();
 }
 
 void loop() {
@@ -41,29 +45,29 @@ void loop() {
 	/*while(1) {
 		Serial.println(analogRead(getDistanceData));
 	}*/
-	
+
 	while(analogRead(getDistanceData) <= 100){}
 #ifdef DEBUG
 	Serial.println("Start");
 #endif
-	
+
 	digitalWrite(enableMotor, 1); //Enable motors
 	digitalWrite(enableLight, 1); //Enable light
-	
+
 	//Whereabout details
 	char currentPath = 1; //The path the robot is on currently
 	char lastCross = 0; //The last cross the robot passed
 	char nextCross = 1; //The next cross the robot will encounter
 	char entryDirection = east; //The direction the start of the path meets the cross
 	char exitDirection = south; //The direction the robot will enter the next cross
-	
+
 	//Cross Priority
 	char preferredDirection = 5; //The way the robot will prefer going
 	char preferredDirectionValue = 0; //The priority the preferredPath has
-	
+
 	int sensors[8]; //Array for the sensor values
 	int lineLocations[2]; //Array for location of lines
-	
+
 	/*What situation the robot is currently in
 	 -3: Robot sees a branch to both sides
 	 -2: Robot sees a branch to the (left/right)
@@ -72,21 +76,21 @@ void loop() {
 	 1: Robot sees one line
 	 2: Robot sees two lines */
 	char situation = 1;
-	
+
 	Serial.print("Situation: ");
 	Serial.println((int)situation);
-	
+
 	char gatesSeen[18]; //Gate count array
 	unsigned long gateDelay; //variable to keep track of time since last gate to avoid detecting a gate twice
-	
+
 	int speedLimit = 500;//Variable for limiting the speed of the robot
-	
-	
+
+
 	bool run; //Variable to keep track of when to break loops
-	
-	
+
+
 	char i; //Iteration variable
-	
+
 	while(1) {
 		//Cross handling
 		//Serial.print("Situation: ");
@@ -120,7 +124,7 @@ void loop() {
 			Serial.println("Preferred path: ");
 			Serial.print(i);
 #endif
-			
+
 			//Turn the robot to the preferredPath
 			switch(exitDirection) {
 				case north:
@@ -176,7 +180,7 @@ void loop() {
 					}
 					break;
 			}
-			
+
 			//Set whereabout variables
 			lastCross = nextCross;
 			entryDirection = preferredDirection;
@@ -186,7 +190,7 @@ void loop() {
 			//End Cross Handling
 		} else {
 			//Behavioral State Machine
-			
+
 			switch(currentPath&(cross-1)){
 				case 1:
 				case 3:
@@ -240,14 +244,14 @@ void loop() {
 							gateDelay = millis()+1000;
 						}
 					}
-					
+
 					goDistance(30,FORWARD);
 					turnDegrees(90);
 					goDistance(300, FORWARD);
 					turnDegrees(90);
-					
+
 					while(situation<2) {
-						
+
 					}
 					break;
 				case 4:
@@ -279,7 +283,7 @@ void loop() {
 			}
 			//End Behavioral State Machine
 		}
-		
+
 	}
 }
 
