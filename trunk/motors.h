@@ -11,6 +11,5 @@
 void setLeftMotor(unsigned char speed, char direction);
 void setRightMotor(unsigned char speed, char direction);
 void setBothMotors(unsigned char speed, char direction);
-void goDistance(int distance, char direction);
 
 #endif

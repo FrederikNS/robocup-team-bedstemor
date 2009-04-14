@@ -14,5 +14,7 @@ void turnDegrees(int degree);
 void stop(char direction);
 void leftInterrupt();
 void rightInterrupt();
+void stop(char direction);
+void goDistance(int distance, char direction);
 
 #endif

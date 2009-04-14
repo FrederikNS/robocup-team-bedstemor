@@ -9,10 +9,13 @@
 #include "sensors.h"
 #include "constants.h"
 #include "motors.h"
+#include "motionControl.h"
 
 #define maxSpeed 255
 #define factor multiplyFixed(speedLimit,14)
 #define degreeToTickFactor 4.4*1000
+
+#define ticksPerCentimeter(x) ((250*x)/47)
 
 volatile int leftTick = 0;
 volatile int rightTick = 0;
@@ -229,8 +232,7 @@ void turnDegrees(int degree) {
 		ticksLeft = leftTick + rightTick;
 	}
 	noInterrupts();
-	setLeftMotor(0,FORWARD);
-	setRightMotor(0,FORWARD);
+	stop(FORWARD);
 }
 
 void stop(char direction) {
@@ -240,6 +242,18 @@ void stop(char direction) {
 		setBothMotors(255,FORWARD);
 	}
 	setBothMotors(0,FORWARD);
+}
+
+void goDistance(int distance, char direction) {
+	leftTick = rightTick = ticksPerCentimeter(distance);
+	int ticksLeft = leftTick + rightTick;
+	setBothMotors(255, direction);
+	interrupts();
+	while(ticksLeft > 0) {
+		ticksLeft = leftTick + rightTick;
+	}
+	noInterrupts();
+	stop(!direction);
 }
 
 /*
