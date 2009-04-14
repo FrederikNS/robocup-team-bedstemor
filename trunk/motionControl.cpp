@@ -16,16 +16,16 @@
 void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	fillSensorData(sensor);
 	char i = 0;
-	char lowest1 = 1024;
-	char value1 = 10;
-	char lowest2 = 500;
-	char value2 = 10;
+	char lowest1 = 10;
+	int value1 = 1023;
+	char lowest2 = 10;
+	int value2 = 500;
 	int low = 500;
 	char start1 = -1;
 	char end1 = -1;
 	char start2 = -1;
 	char end2 = -1;
-	char line = 0;
+	long line = 0;
 	int sum = 0;
 	int temp = 0;
 	for(i = 0; i < 8; i++) {
