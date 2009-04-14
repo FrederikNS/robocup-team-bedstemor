@@ -217,7 +217,6 @@ void turnDegrees(int degree) {
 		if(degree < 0) {
 			degree = -degree;
 		}
-		degree -= 180;
 		rightTick = leftTick = ((degree*degreeToTickFactor)/1000)/2;
 		setLeftMotor(255,FORWARD);
 		setRightMotor(255,REVERSE);
