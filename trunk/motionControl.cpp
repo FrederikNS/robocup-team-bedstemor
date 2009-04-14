@@ -11,6 +11,7 @@
 
 #define int maxSpeed 255
 #define float factor maxSpeed/3.5
+#define int degreePerSecond 0 //placeholder
 
 void findLine(float result[3], int sensor[8]) {
 	fillSensorData(sensor);
@@ -140,6 +141,47 @@ void calculateMotorSpeedFromLine(float line) {
 	}
 	setLeftMotor(leftMotorSpeed, FORWARD);
 	setRightMotor(rightMotorSpeed, FORWARD);
+}
+
+void turnDegrees(int degree) {
+	while(degree > 360) {
+		degree -= 360;
+	}
+	while(degree < -360) {
+		degree += 360;
+	}
+	int time = 0;
+	if(degree > 180 || (degree > -180 && degree < 0)) {
+		//turn right
+		if(degree < 0) {
+			degree = -degree;
+		}
+		time = degree * degreePerSecond;
+		setLeftMotor(255,FORWARD);
+		setRightMotor(255,REVERSE);
+	} else {
+		//turn left
+		if(degree < 0) {
+			degree = -degree;
+		}
+		time = degree * degreePerSecond;
+		setLeftMotor(255,REVERSE);
+		setRightMotor(255,FORWARD);
+	}
+	while(time != 0) {
+		time--;
+	}
+	setLeftMotor(0,FORWARD);
+	setRightMotor(0,FORWARD);
+}
+
+void stop(int direction) {
+	if(direction) {
+		setBothMotors(255,REVERSE);
+	} else {
+		setBothMotors(255,FORWARD);
+	}
+	setBothMotors(0,FORWARD);
 }
 
 /*
