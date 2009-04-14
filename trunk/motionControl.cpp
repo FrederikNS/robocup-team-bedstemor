@@ -141,8 +141,8 @@ void findLine(short result[3], short sensor[8]) {
 void calculateMotorSpeedFromLine(short line) {
 	int rightMotorSpeed = 0;
 	int leftMotorSpeed = 0;
-	rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+3);
-	leftMotorSpeed = fromFixedPoint(multiplyFixed(line,factor)+3);
+	rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+2);
+	leftMotorSpeed = fromFixedPoint(multiplyFixed(line,factor)+2);
 	if(rightMotorSpeed > maxSpeed) {
 		rightMotorSpeed = maxSpeed;
 	}
