@@ -10,4 +10,6 @@
 
 void fillSensorData(short array[8]);
 
+bool gateSensor();
+
 #endif

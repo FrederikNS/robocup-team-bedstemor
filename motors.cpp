@@ -8,22 +8,26 @@
 #include "constants.h"
 
 void setLeftMotor(char speed, char direction) {
-	digitalWrite(leftMotorDirection,direction);
+	digitalWrite(leftMotorDirectionPin,direction);
 	if(direction) {
 		speed = 256-speed;
 	}
-	analogWrite(leftMotorSpeed, speed);
+	analogWrite(leftMotorSpeedPin, speed);
 }
 
 void setRightMotor(char speed, char direction) {
-	digitalWrite(rightMotorDirection,direction);
+	digitalWrite(rightMotorDirectionPin,direction);
 	if(direction) {
 		speed = 256-speed;
 	}
-	analogWrite(rightMotorSpeed, speed);
+	analogWrite(rightMotorSpeedPin, speed);
 }
 
 void setBothMotors(char speed, char direction) {
 	setRightMotor(speed, direction);
 	setLeftMotor(speed, direction);
+}
+
+void goDistance(int distance, char direction) {
+	
 }
