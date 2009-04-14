@@ -13,6 +13,8 @@
 #include "sensors.h"
 #include "course.h"
 
+//#define DEBUG
+
 //http://www.ikalogic.com/tut_line_sens_algo.php
 
 void setup() {
@@ -29,15 +31,20 @@ void setup() {
 	pinMode(C, OUTPUT);
 	pinMode(enableLight, OUTPUT);
 	pinMode(startButton, INPUT);
+	pinMode(getDistanceData, INPUT);
 	
 }
 
 void loop() {
 	//Wait for start signal
-	while(digitalRead(startButton) == LOW){}
+	//while(digitalRead(startButton) == LOW){}
+	while(analogRead(getDistanceData) <= 100){}
+#ifdef DEBUG
+	Serial.println("Start");
+#endif
 	
-	digitalWrite(enableMotor, HIGH); //Enable motors
-	digitalWrite(enableLight, HIGH); //Enable light
+	digitalWrite(enableMotor, 1); //Enable motors
+	digitalWrite(enableLight, 1); //Enable light
 	
 	//Whereabout details
 	char currentPath = 1; //The path the robot is on currently
@@ -47,11 +54,11 @@ void loop() {
 	char exitDirection = south; //The direction the robot will enter the next cross
 	
 	//Cross Priority
-	char preferredDirection; //The whay the robot will prefer going
+	char preferredDirection = 5; //The way the robot will prefer going
 	char preferredDirectionValue = 0; //The priority the preferredPath has
 	
-	short sensors[8]; //Array for the sensor values
-	short lineLocations[2]; //Array for location of lines
+	int sensors[8]; //Array for the sensor values
+	int lineLocations[2]; //Array for location of lines
 	
 	/*What situation the robot is currently in
 	 -3: Robot sees a branch to both sides
@@ -60,13 +67,15 @@ void loop() {
 	 0: Robot sees no lines
 	 1: Robot sees one line
 	 2: Robot sees two lines */
-	char *situation;
+	char situation = 1;
 	
+	Serial.print("Situation: ");
+	Serial.println((int)situation);
 	
 	char gatesSeen[18]; //Gate count array
 	unsigned long gateDelay; //variable to keep track of time since last gate to avoid detecting a gate twice
 	
-	short speedLimit;//Variable for limiting the speed of the robot
+	int speedLimit = 500;//Variable for limiting the speed of the robot
 	
 	
 	bool run; //Variable to keep track of when to break loops
@@ -76,7 +85,26 @@ void loop() {
 	
 	while(1) {
 		//Cross handling
-		if(currentPath&cross==cross) {
+		//Serial.print("Situation: ");
+		//Serial.println((int)situation);
+		/*for(int j=1;j<=7;j++){
+			if(sensors[j]<1000) {
+				Serial.print(0);
+				if(sensors[j]<100) {
+					Serial.print(0);
+					if(sensors[j]<10) {
+						Serial.print(0);
+					}
+				}
+			}
+			Serial.print(sensors[j]);
+			Serial.print(" ");
+		}
+		Serial.println();*/
+		if(0/*currentPath&cross==cross*/) {
+#ifdef DEBUG
+			Serial.println("Cross Found");
+#endif
 			//search for the path with the highest priority
 			for(i=0;i<=4;i++) {
 				if(exitDirection != i && preferredDirectionValue<weights[nextCross-1][i]) {
@@ -84,6 +112,10 @@ void loop() {
 					preferredDirectionValue = weights[nextCross-1][i];
 				}
 			}
+#ifdef DEBUG
+			Serial.println("Preferred path: ");
+			Serial.print(i);
+#endif
 			
 			//Turn the robot to the preferredPath
 			switch(exitDirection) {
@@ -150,6 +182,7 @@ void loop() {
 			//End Cross Handling
 		} else {
 			//Behavioral State Machine
+			
 			switch(currentPath&(cross-1)){
 				case 1:
 				case 3:
@@ -158,10 +191,14 @@ void loop() {
 				case 15:
 				case 17:
 					//Simple paths, just follow line
-					findLine(situation, lineLocations, sensors);
+					Serial.print("Situation: ");
+					Serial.println((int)situation);
+					findLine(&situation, lineLocations, sensors);
 					run=true;
 					while(run) {
-						switch(*situation) {
+						Serial.print("Situation: ");
+						Serial.println((int)situation);
+						switch(situation) {
 							case 0:
 							case 1:
 								calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
@@ -169,14 +206,14 @@ void loop() {
 									gatesSeen[currentPath-1]++;
 									gateDelay = millis()+1000;
 								}
-								findLine(situation, lineLocations, sensors);
+								findLine(&situation, lineLocations, sensors);
 								break;
 							case 2:
 								break;
 							case -1:
 							case -2:
 								stop(FORWARD);
-								currentPath |= cross;
+								//currentPath |= cross;
 								run=false;
 								break;
 						}
@@ -184,8 +221,8 @@ void loop() {
 					break;
 				case 2:
 					//Seesaw
-					while(*situation==1) {
-						findLine(situation, lineLocations, sensors);
+					while(situation==1) {
+						findLine(&situation, lineLocations, sensors);
 						calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
 						if(gateSensor()&&millis()>gateDelay) {
 							gatesSeen[currentPath-1]++;
@@ -198,7 +235,7 @@ void loop() {
 					goDistance(300, FORWARD);
 					turnDegrees(90);
 					
-					while(*situation<1) {
+					while(situation<2) {
 						
 					}
 					break;
