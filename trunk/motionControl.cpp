@@ -209,10 +209,9 @@ void turnDegrees(int degree) {
 		if(degree < 0) {
 			degree = -degree;
 		}
-		degreeToTickFactor;
 		leftTick = rightTick = ((degree*degreeToTickFactor)/1000)/2;
-		setLeftMotor(255,FORWARD);
-		setRightMotor(255,REVERSE);
+		setLeftMotor(255,REVERSE);
+		setRightMotor(255,FORWARD);
 	} else {
 		//turn left
 		if(degree < 0) {
@@ -220,11 +219,12 @@ void turnDegrees(int degree) {
 		}
 		degree -= 180;
 		rightTick = leftTick = ((degree*degreeToTickFactor)/1000)/2;
-		setLeftMotor(255,REVERSE);
-		setRightMotor(255,FORWARD);
+		setLeftMotor(255,FORWARD);
+		setRightMotor(255,REVERSE);
 	}
+	ticksLeft = leftTick + rightTick;
 	interrupts();
-	while(!(ticksLeft < 0)) {
+	while(ticksLeft > 0) {
 		ticksLeft = leftTick + rightTick;
 	}
 	noInterrupts();
