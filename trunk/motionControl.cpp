@@ -5,6 +5,7 @@
  *      Author: starswifter
  */
 
+#include "WProgram.h"
 #include "sensors.h"
 #include "constants.h"
 #include "motors.h"
@@ -15,7 +16,7 @@
 
 void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	fillSensorData(sensor);
-	char i = 0;
+	int i = 0;
 	char lowest1 = 10;
 	int value1 = 1023;
 	char lowest2 = 10;
@@ -42,14 +43,14 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 		if(temp < low) {
 			if(start1 == -1) {
 				start1 = i;
-			} else if(start2 == -1) {
+			} else if(start2 == -1 && end1 != -1) {
 				start2 = i;
 			}
 		} else {
-			if(end1 == -1) {
-				end1 = i;
-			} else if(end2 == -1) {
-				end2 = i;
+			if(end1 == -1 && start1 != -1) {
+				end1 = i-1;
+			} else if(end2 == -1 && start2 != -1) {
+				end2 = i-1;
 			}
 		}
 	}
@@ -58,7 +59,20 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	}
 	if(start2 != -1 && end2 == -1) {
 		end2 = 7;
-	}
+	}/*
+	Serial.print("start1: ");
+	Serial.print((int)start1);
+	Serial.print("\tend1: ");
+	Serial.print((int)end1);
+	Serial.print("\tstart2: ");
+	Serial.print((int)start2);
+	Serial.print("\tend2: ");
+	Serial.println((int)end2);
+
+	Serial.print("\tlowest1: ");
+	Serial.print((int)lowest1);
+	Serial.print("\tlowest2: ");
+	Serial.println((int)lowest2);*/
 	if(start1 <= 0 && end1 >= 7) { //crossroad
 		*situation = -3;
 	} else if(start1 == 0 && end1 >= 4) { //turn left
@@ -68,7 +82,11 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	} else if(start2 == -1) { //forward
 		*situation = 1;
 		i = lowest1 - 1;
-		temp = lowest1 + 1;
+		temp = lowest1 + 1;/*
+		Serial.print("Calculating from sensor: ");
+		Serial.print(i);
+		Serial.print(" to ");
+		Serial.println(temp);*/
 		if(i == -1) {
 			i++;
 		}
@@ -135,7 +153,11 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 		lineLocations[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 	} else {
 		situation = 0;
-	}
+	}/*
+	Serial.print("Lines: ");
+	Serial.print(lineLocations[0]);
+	Serial.print("\t");
+	Serial.println(lineLocations[1]);*/
 }
 
 void calculateMotorSpeedFromLine(int line, int speedLimit) {
