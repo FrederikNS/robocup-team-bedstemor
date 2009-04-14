@@ -203,7 +203,7 @@ void turnDegrees(int degree) {
 	while(degree < -360) {
 		degree += 360;
 	}
-	int time = 0;
+	int ticksLeft = 0;
 	if(degree > 180 || (degree > -180 && degree < 0)) {
 		//turn right
 		if(degree < 0) {
@@ -224,8 +224,8 @@ void turnDegrees(int degree) {
 		setRightMotor(255,FORWARD);
 	}
 	interrupts();
-	while(time != 0) {
-		time = leftTick + rightTick;
+	while(!(ticksLeft < 0)) {
+		ticksLeft = leftTick + rightTick;
 	}
 	noInterrupts();
 	setLeftMotor(0,FORWARD);
