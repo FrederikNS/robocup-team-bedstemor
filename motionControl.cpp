@@ -114,7 +114,7 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 		if(!sum) {
 			sum = 1;
 		}
-		lineLocations[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
+		lineLocations[0] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 		line = 0;
 		sum = 0;
 		i = lowest2 - 1;
@@ -132,7 +132,7 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 		if(!sum) {
 			sum = 1;
 		}
-		lineLocations[2] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
+		lineLocations[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 	} else {
 		situation = 0;
 	}
