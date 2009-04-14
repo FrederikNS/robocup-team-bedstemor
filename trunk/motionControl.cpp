@@ -16,9 +16,9 @@
 void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	fillSensorData(sensor);
 	char i = 0;
-	char lowest1 = 0;
+	char lowest1 = 1024;
 	char value1 = 10;
-	char lowest2 = 0;
+	char lowest2 = 500;
 	char value2 = 10;
 	int low = 500;
 	char start1 = -1;
@@ -141,7 +141,6 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 void calculateMotorSpeedFromLine(int line, int speedLimit) {
 	int rightMotorSpeed = 0;
 	int leftMotorSpeed = 0;
-	
 	if(line < 14) {
 		setLeftMotor(fromFixedPoint(divideFixed(line,14))*speedLimit,FORWARD);
 		setRightMotor(speedLimit,FORWARD);
@@ -151,7 +150,7 @@ void calculateMotorSpeedFromLine(int line, int speedLimit) {
 	} else if(line == 14) {
 		setBothMotors(speedLimit,FORWARD);
 	}
-	
+
 	/*rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+2);
 	leftMotorSpeed = fromFixedPoint(multiplyFixed(line,factor)+2);
 	if(rightMotorSpeed > speedLimit) {
