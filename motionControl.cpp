@@ -9,9 +9,9 @@
 #include "constants.h"
 #include "motors.h"
 
-#define char maxSpeed 255
-#define short factor multiplyFixed(maxSpeed,14)
-#define short degreePerSecond toFixedPoint(0) //placeholder
+#define  maxSpeed 255
+#define  factor multiplyFixed(maxSpeed,14)
+#define  degreePerSecond toFixedPoint(0) //placeholder
 
 void findLine(short result[3], short sensor[8]) {
 	fillSensorData(sensor);

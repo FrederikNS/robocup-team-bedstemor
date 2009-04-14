@@ -34,7 +34,7 @@ const char Carray[] = {LOW,LOW,LOW,LOW,HIGH,HIGH,HIGH,HIGH};
 #define bitShift 2
 #define toFixedPoint(x) (x << bitShift)
 #define fromFixedPoint(x) (x >> bitShift)
-#define multiplyFixed(x,y) ((a*b) >> bitShift)
-#define divideFixed(x,y) ((x << bitShift) / b)
+#define multiplyFixed(x,y) ((x*y) >> bitShift)
+#define divideFixed(x,y) ((x << bitShift) / y)
 
 #endif
