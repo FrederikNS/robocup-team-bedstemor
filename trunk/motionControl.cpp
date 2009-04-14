@@ -141,7 +141,18 @@ void findLine(char* situation, short lineLocations[2], short sensor[8]) {
 void calculateMotorSpeedFromLine(short line, short speedLimit) {
 	int rightMotorSpeed = 0;
 	int leftMotorSpeed = 0;
-	rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+2);
+	
+	if(line < 14) {
+		setLeftMotor(fromFixedPoint(divideFixed(line,14))*speedLimit,FORWARD);
+		setRightMotor(speedLimit,FORWARD);
+	} else if(line > 14) {
+		setRightMotor(fromFixedPoint(divideFixed((toFixedPoint(7)-line),14))*speedLimit,FORWARD);
+		setLeftMotor(speedLimit,FORWARD);
+	} else if(line == 14) {
+		setBothMotors(speedLimit,FORWARD);
+	}
+	
+	/*rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+2);
 	leftMotorSpeed = fromFixedPoint(multiplyFixed(line,factor)+2);
 	if(rightMotorSpeed > speedLimit) {
 		rightMotorSpeed = speedLimit;
@@ -150,7 +161,7 @@ void calculateMotorSpeedFromLine(short line, short speedLimit) {
 		leftMotorSpeed = speedLimit;
 	}
 	setLeftMotor(leftMotorSpeed, FORWARD);
-	setRightMotor(rightMotorSpeed, FORWARD);
+	setRightMotor(rightMotorSpeed, FORWARD);*/
 }
 
 void turnDegrees(short degree) {
