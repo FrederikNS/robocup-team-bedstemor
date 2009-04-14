@@ -8,11 +8,9 @@
 #ifndef MOTORS_H_
 #define MOTORS_H_
 
-void setLeftMotor(char speed, char direction);
-void setRightMotor(char speed, char direction);
-void setBothMotors(char speed, char direction);
-void turnRight(int angle);
-void turnLeft(int angle);
+void setLeftMotor(unsigned char speed, char direction);
+void setRightMotor(unsigned char speed, char direction);
+void setBothMotors(unsigned char speed, char direction);
 void goDistance(int distance, char direction);
 
 #endif
