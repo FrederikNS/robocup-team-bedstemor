@@ -12,5 +12,7 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]);
 void calculateMotorSpeedFromLine(int line, int speedLimit);
 void turnDegrees(int degree);
 void stop(char direction);
+void leftInterrupt();
+void rightInterrupt();
 
 #endif

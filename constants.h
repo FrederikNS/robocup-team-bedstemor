@@ -45,4 +45,7 @@ const int Carray[] = {LOW,LOW,LOW,LOW,HIGH,HIGH,HIGH,HIGH};
 #define multiplyFixed(x,y) ((x*y) >> bitShift)
 #define divideFixed(x,y) ((x << bitShift) / y)
 
+#define INTERRUPT_R 2
+#define INTERRUPT_L 3
+
 #endif
