@@ -38,6 +38,10 @@ void setup() {
 void loop() {
 	//Wait for start signal
 	//while(digitalRead(startButton) == LOW){}
+	/*while(1) {
+		Serial.println(analogRead(getDistanceData));
+	}*/
+	
 	while(analogRead(getDistanceData) <= 100){}
 #ifdef DEBUG
 	Serial.println("Start");
@@ -194,6 +198,11 @@ void loop() {
 					Serial.print("Situation: ");
 					Serial.println((int)situation);
 					findLine(&situation, lineLocations, sensors);
+					Serial.print("Lines: ");
+					Serial.print(lineLocations[0]);
+					Serial.print(" ");
+					Serial.print(lineLocations[1]);
+					Serial.println();
 					run=true;
 					while(run) {
 						Serial.print("Situation: ");
@@ -209,6 +218,8 @@ void loop() {
 								findLine(&situation, lineLocations, sensors);
 								break;
 							case 2:
+								stop(FORWARD);
+								findLine(&situation, lineLocations, sensors);
 								break;
 							case -1:
 							case -2:
