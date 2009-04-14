@@ -7,8 +7,8 @@
 
 #include "constants.h"
 
-void fillSensorData(int array[8]) {
-	int i = 0;
+void fillSensorData(short array[8]) {
+	char i = 0;
 	for(i = 0; i < 8; i++) {
 		digitalWrite(A, Aarray[i]);
 		digitalWrite(B, Barray[i]);
