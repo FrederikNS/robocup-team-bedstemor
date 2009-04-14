@@ -7,7 +7,7 @@
 
 #include "constants.h"
 
-void setLeftMotor(int speed, int direction) {
+void setLeftMotor(char speed, char direction) {
 	digitalWrite(leftMotorDirection,direction);
 	if(direction) {
 		speed = 256-speed;
@@ -15,7 +15,7 @@ void setLeftMotor(int speed, int direction) {
 	analogWrite(leftMotorSpeed, speed);
 }
 
-void setRightMotor(int speed, int direction) {
+void setRightMotor(char speed, char direction) {
 	digitalWrite(rightMotorDirection,direction);
 	if(direction) {
 		speed = 256-speed;
@@ -23,7 +23,7 @@ void setRightMotor(int speed, int direction) {
 	analogWrite(rightMotorSpeed, speed);
 }
 
-void setBothMotors(int speed, int direction) {
+void setBothMotors(char speed, char direction) {
 	setRightMotor(speed, direction);
 	setLeftMotor(speed, direction);
 }

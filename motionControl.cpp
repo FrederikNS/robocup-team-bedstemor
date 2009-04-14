@@ -9,26 +9,27 @@
 #include "constants.h"
 #include "motors.h"
 
-#define int maxSpeed 255
-#define float factor maxSpeed/3.5
-#define int degreePerSecond 0 //placeholder
+#define char maxSpeed 255
+#define short factor multiplyFixed(maxSpeed,14)
+#define short degreePerSecond toFixedPoint(0) //placeholder
 
-void findLine(float result[3], int sensor[8]) {
+void findLine(short result[3], short sensor[8]) {
 	fillSensorData(sensor);
-	int i = 0;
-	int lowest1 = 0;
-	int value1 = 10;
-	int lowest2 = 0;
-	int value2 = 10;
-	int low = 200;
-	int start1 = -1;
-	int end1 = -1;
-	int start2 = -1;
-	int end2 = -1;
-	int line = 0;
-	int sum = 0;
+	char i = 0;
+	char lowest1 = 0;
+	char value1 = 10;
+	char lowest2 = 0;
+	char value2 = 10;
+	short low = 200;
+	char start1 = -1;
+	char end1 = -1;
+	char start2 = -1;
+	char end2 = -1;
+	char line = 0;
+	short sum = 0;
+	short temp = 0;
 	for(i = 0; i < 8; i++) {
-		int temp = sensor[i];
+		temp = sensor[i];
 		if(temp < value1) {
 			lowest1 = i;
 			value1 = temp;
@@ -78,7 +79,10 @@ void findLine(float result[3], int sensor[8]) {
 			line += sensor[i] * (i+1);
 			sum += sensor[i];
 		}
-		result[1] = line/sum;
+		if(!sum) {
+			sum = 1;
+		}
+		result[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 	} else if(end2 != -1) { //two roads
 		result[0] = 2;
 		for(i = start1; i <= end1; i++) {
@@ -107,7 +111,10 @@ void findLine(float result[3], int sensor[8]) {
 			line += sensor[i] * (i+1);
 			sum += sensor[i];
 		}
-		result[1] = line/sum;
+		if(!sum) {
+			sum = 1;
+		}
+		result[1] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 		line = 0;
 		sum = 0;
 		i = lowest2 - 1;
@@ -122,17 +129,20 @@ void findLine(float result[3], int sensor[8]) {
 			line += sensor[i] * (i+1);
 			sum += sensor[i];
 		}
-		result[2] = line/sum;
+		if(!sum) {
+			sum = 1;
+		}
+		result[2] = divideFixed(toFixedPoint(line),toFixedPoint(sum));
 	} else {
 		result[0] = 0;
 	}
 }
 
-void calculateMotorSpeedFromLine(float line) {
+void calculateMotorSpeedFromLine(short line) {
 	int rightMotorSpeed = 0;
 	int leftMotorSpeed = 0;
-	rightMotorSpeed = ((8-line)*factor)+0.5;
-	leftMotorSpeed = (line*factor)+0.5;
+	rightMotorSpeed = fromFixedPoint((multiplyFixed((toFixedPoint(8)-line),factor))+3);
+	leftMotorSpeed = fromFixedPoint(multiplyFixed(line,factor)+3);
 	if(rightMotorSpeed > maxSpeed) {
 		rightMotorSpeed = maxSpeed;
 	}
@@ -143,7 +153,7 @@ void calculateMotorSpeedFromLine(float line) {
 	setRightMotor(rightMotorSpeed, FORWARD);
 }
 
-void turnDegrees(int degree) {
+void turnDegrees(short degree) {
 	while(degree > 360) {
 		degree -= 360;
 	}
@@ -156,7 +166,7 @@ void turnDegrees(int degree) {
 		if(degree < 0) {
 			degree = -degree;
 		}
-		time = degree * degreePerSecond;
+		time = multiplyFixed(toFixedPoint(degree),degreePerSecond);
 		setLeftMotor(255,FORWARD);
 		setRightMotor(255,REVERSE);
 	} else {
@@ -164,7 +174,8 @@ void turnDegrees(int degree) {
 		if(degree < 0) {
 			degree = -degree;
 		}
-		time = degree * degreePerSecond;
+		degree -= 180;
+		time = multiplyFixed(toFixedPoint(degree),degreePerSecond);
 		setLeftMotor(255,REVERSE);
 		setRightMotor(255,FORWARD);
 	}
@@ -175,7 +186,7 @@ void turnDegrees(int degree) {
 	setRightMotor(0,FORWARD);
 }
 
-void stop(int direction) {
+void stop(char direction) {
 	if(direction) {
 		setBothMotors(255,REVERSE);
 	} else {

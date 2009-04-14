@@ -27,8 +27,14 @@
 #define west 3
 #define northwest 4
 
-const int Aarray[] = {LOW,HIGH,LOW,HIGH,LOW,LOW,HIGH,HIGH};
-const int Barray[] = {LOW,HIGH,HIGH,LOW,HIGH,LOW,LOW,HIGH};
-const int Carray[] = {LOW,LOW,LOW,LOW,HIGH,HIGH,HIGH,HIGH};
+const char Aarray[] = {LOW,HIGH,LOW,HIGH,LOW,LOW,HIGH,HIGH};
+const char Barray[] = {LOW,HIGH,HIGH,LOW,HIGH,LOW,LOW,HIGH};
+const char Carray[] = {LOW,LOW,LOW,LOW,HIGH,HIGH,HIGH,HIGH};
+
+#define bitShift 2
+#define toFixedPoint(x) (x << bitShift)
+#define fromFixedPoint(x) (x >> bitShift)
+#define multiplyFixed(x,y) ((a*b) >> bitShift)
+#define divideFixed(x,y) ((x << bitShift) / b)
 
 #endif
