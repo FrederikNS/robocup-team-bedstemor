@@ -13,21 +13,21 @@
 #define factor multiplyFixed(speedLimit,14)
 #define degreePerSecond toFixedPoint(0) //placeholder
 
-void findLine(char* situation, short lineLocations[2], short sensor[8]) {
+void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	fillSensorData(sensor);
 	char i = 0;
 	char lowest1 = 0;
 	char value1 = 10;
 	char lowest2 = 0;
 	char value2 = 10;
-	short low = 200;
+	int low = 500;
 	char start1 = -1;
 	char end1 = -1;
 	char start2 = -1;
 	char end2 = -1;
 	char line = 0;
-	short sum = 0;
-	short temp = 0;
+	int sum = 0;
+	int temp = 0;
 	for(i = 0; i < 8; i++) {
 		temp = sensor[i];
 		if(temp < value1) {
@@ -138,7 +138,7 @@ void findLine(char* situation, short lineLocations[2], short sensor[8]) {
 	}
 }
 
-void calculateMotorSpeedFromLine(short line, short speedLimit) {
+void calculateMotorSpeedFromLine(int line, int speedLimit) {
 	int rightMotorSpeed = 0;
 	int leftMotorSpeed = 0;
 	
@@ -164,7 +164,7 @@ void calculateMotorSpeedFromLine(short line, short speedLimit) {
 	setRightMotor(rightMotorSpeed, FORWARD);*/
 }
 
-void turnDegrees(short degree) {
+void turnDegrees(int degree) {
 	while(degree > 360) {
 		degree -= 360;
 	}

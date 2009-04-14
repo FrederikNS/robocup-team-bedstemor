@@ -8,7 +8,7 @@
 #ifndef SENSORS_H_
 #define SENSORS_H_
 
-void fillSensorData(short array[8]);
+void fillSensorData(int array[8]);
 
 bool gateSensor();
 
