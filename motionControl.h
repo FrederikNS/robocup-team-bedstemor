@@ -16,5 +16,9 @@ void leftInterrupt();
 void rightInterrupt();
 void stop(char direction);
 void goDistance(int distance, char direction);
+void goStraight();
+void goLeft();
+void goRight();
+
 
 #endif

@@ -8,7 +8,7 @@
 
 #include "constants.h" 
 
-char paths[18][5] = {
+const unsigned char paths[18][5] = {
 //{from cross,to cross,side of "from cross",side of "to cross",# of gates}
 /*1*/{0,1,east,south,3},
 /*2*/{1,0,west,east,1},
@@ -29,7 +29,7 @@ char paths[18][5] = {
 /*17*/{7,8,north,south,0},
 /*18*/{8,8,east,north,1}};
 
-const char crosses[8][4] = {
+const unsigned char crosses[8][4] = {
 //{north,south,east,west}
 /*1*/{3,1,0,2},
 /*2*/{5,3,0,4},
@@ -40,15 +40,15 @@ const char crosses[8][4] = {
 /*7*/{16,14,13,15},
 /*8*/{17,16,17,15}};
 
-char weights[8][4] = {
+unsigned char weights[8][4] = {
 //{north,south,east,west}
 /*1*/{1,0,0,2},
-/*2*/{0,0,0,1},
-/*3*/{2,0,3,1},
+/*2*/{1,0,0,2},
+/*3*/{2,0,0,1},
 /*4*/{0,0,0,1},
 /*5*/{0,1,0,0},
 /*6*/{0,1,2,3},
 /*7*/{0,1,0,2},
 /*8*/{0,1,2,0}};
 
-bool visits[8][4];
+char visits[18];
