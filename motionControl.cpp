@@ -25,8 +25,8 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	unsigned char lowest1 = 10;
 	int value1 = 1023;
 	unsigned char lowest2 = 10;
-	int value2 = 500;
-	int low = 500;
+	int value2 = 400;
+	int low = 400;
 	char start1 = -1;
 	char end1 = -1;
 	char start2 = -1;
@@ -241,22 +241,17 @@ void goDistance(int distance, char direction) {
 
 void goStraight() {
 	Serial.println("Going Straight");
-	stop(FORWARD);
 	goDistance(centerRobot, FORWARD);
 }
 
 void goLeft() {
 	Serial.println("Going Left");
-	stop(FORWARD);
 	goDistance(centerRobot, FORWARD);
-	delay(250);
 	turnDegrees(90);
 }
 
 void goRight() {
 	Serial.println("Going Right");
-	stop(FORWARD);
 	goDistance(centerRobot, FORWARD);
-	delay(250);
 	turnDegrees(-90);
 }
