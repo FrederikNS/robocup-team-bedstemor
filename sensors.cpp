@@ -34,5 +34,5 @@ void fillSensorData(int array[8]) {
 }
 
 bool gateSensor() {
-	return false;
+	return (digitalRead(getDistanceData) == HIGH) ? true: false;
 }
