@@ -13,7 +13,7 @@
 
 #define maxSpeed 255
 #define factor multiplyFixed(speedLimit,14)
-#define degreeToTickFactor 4.4*1000
+#define degreeToTickFactor 8.1*1000
 
 #define ticksPerCentimeter(x) ((250*x)/47)
 
