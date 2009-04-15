@@ -12,13 +12,17 @@ void setLeftMotor(unsigned char speed, char direction) {
 	digitalWrite(leftMotorDirectionPin,!direction);
 	if(!direction) {
 		speed = 255-speed;
+	} else {
+		speed = speed;
 	}
 	analogWrite(leftMotorSpeedPin, speed);
 }
 
 void setRightMotor(unsigned char speed, char direction) {
 	digitalWrite(rightMotorDirectionPin,direction);
-	if(direction) {
+	if(!direction) {
+		speed = speed;
+	} else {
 		speed = 255-speed;
 	}
 	analogWrite(rightMotorSpeedPin, speed);

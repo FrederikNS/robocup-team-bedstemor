@@ -15,10 +15,9 @@
 #define factor multiplyFixed(speedLimit,14)
 #define degreeToTickFactor 8.1*1000
 
-#define ticksPerCentimeter(x) ((2500*x)/47)
 
-volatile int leftTick = 0;
-volatile int rightTick = 0;
+long leftTick = 0;
+long rightTick = 0;
 
 void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 	fillSensorData(sensor);
@@ -167,8 +166,8 @@ void findLine(char* situation, int lineLocations[2], int sensor[8]) {
 }
 
 void calculateMotorSpeedFromLine(int line, int speedLimit) {
-		setLeftMotor(constrain(speedLimit+(fromFixedPoint(line)-4)*40,0,255),FORWARD);
-		setRightMotor(constrain(speedLimit-(fromFixedPoint(line)-4)*40,0,255),FORWARD);
+		setLeftMotor(constrain(speedLimit+(fromFixedPoint(line)-4)*60,0,255),FORWARD);
+		setRightMotor(constrain(speedLimit-(fromFixedPoint(line)-4)*60,0,255),FORWARD);
 }
 
 void leftInterrupt() {
@@ -180,90 +179,84 @@ void rightInterrupt() {
 }
 
 void turnDegrees(int degree) {
-	while(degree > 360) {
-		degree -= 360;
-	}
-	while(degree < -360) {
-		degree += 360;
-	}
-	int ticksLeft = 0;
-	if(degree > 180 || (degree > -180 && degree < 0)) {
+	Serial.println("turning");
+		degree %= 360;
+	
+	long ticksRemaining = 0;
+	
+	if(degree > 180 || (degree > -180 && degree <= 0)) {
 		//turn right
 		if(degree < 0) {
-			degree = 360+degree;
-		} else {
-			degree = 360-degree;
+			degree *= -1;
 		}
-		leftTick = rightTick = ((degree*degreeToTickFactor)/1000)/2;
-		setLeftMotor(150,FORWARD);
-		setRightMotor(150,REVERSE);
+		leftTick = rightTick = ((degree*100000)/20000);
+		setLeftMotor(255,FORWARD);
+		setRightMotor(255,REVERSE);
 	} else {
 		//turn left
 		if(degree < 0) {
-			degree = 360+degree;
+			degree = 360-degree;
 		}
-		rightTick = leftTick = ((degree*degreeToTickFactor)/1000)/2;
-		setLeftMotor(150,REVERSE);
-		setRightMotor(150,FORWARD);
+		rightTick = leftTick = ((degree*100000)/20000);
+		setLeftMotor(255,REVERSE);
+		setRightMotor(255,FORWARD);
 	}
-	ticksLeft = leftTick + rightTick;
-	interrupts();
-	while(ticksLeft > 0) {
-		ticksLeft = leftTick + rightTick;
+	ticksRemaining = leftTick + rightTick;
+	while(ticksRemaining > 0) {
+		ticksRemaining = leftTick + rightTick;
+		Serial.println(ticksRemaining);
 	}
-	noInterrupts();
 	stop(FORWARD);
+	Serial.println("Stop");
+	ticksRemaining = 0;
+	leftTick = 0;
+	rightTick = 0;
 }
 
 void stop(char direction) {
-	if(direction) {
+	/*if(direction) {
 		setBothMotors(255,REVERSE);
 	} else {
 		setBothMotors(255,FORWARD);
-	}
+	}*/
 	setBothMotors(0,FORWARD);
 }
 
 void goDistance(int distance, char direction) {
-	leftTick = rightTick = ticksPerCentimeter(distance);
-	int ticksLeft = leftTick + rightTick;
+	Serial.println("goDistance");
+	
+	leftTick = rightTick = 30*distance;
+	Serial.println(leftTick);
+	long ticksRemaining = leftTick + rightTick;
 	setBothMotors(255, direction);
-	interrupts();
-	while(ticksLeft > 0) {
-		ticksLeft = leftTick + rightTick;
+	while(ticksRemaining > 0) {
+		ticksRemaining = leftTick + rightTick;
+		Serial.println(leftTick+rightTick);
 	}
-	noInterrupts();
 	stop(direction);
+	ticksRemaining = 0;
+	leftTick = 0;
+	rightTick = 0;
 }
 
 void goStraight() {
+	Serial.println("Going Straight");
 	stop(FORWARD);
-	goDistance(10, FORWARD);
+	goDistance(centerRobot, FORWARD);
 }
 
 void goLeft() {
+	Serial.println("Going Left");
 	stop(FORWARD);
 	goDistance(centerRobot, FORWARD);
+	delay(250);
 	turnDegrees(90);
-	stop(FORWARD);
 }
 
 void goRight() {
+	Serial.println("Going Right");
 	stop(FORWARD);
 	goDistance(centerRobot, FORWARD);
+	delay(250);
 	turnDegrees(-90);
-	stop(FORWARD);
 }
-
-/*
- *
-	left = (line*factor)+0.5;
-	right = ((1024-line)*factor)+0.5;
-	if(left > maxSpeed)
-		left = maxSpeed;
-	if(right > maxSpeed)
-		right = maxSpeed;
-
-	setLeftMotor(left,FORWARD);
-	setRightMotor(right,FORWARD);
- */
