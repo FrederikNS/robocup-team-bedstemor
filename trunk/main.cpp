@@ -233,20 +233,47 @@ void loop() {
 				nextCross=5;
 				break;
 			case 8:
+				turnDegrees(90);
+				turnDegrees(90);
+
+				cross = true;
+
+				lastCross=8;
+				entryDirection=east;
+				currentPath=10;
+				exitDirection=south;
+				nextCross=8;
+				break;
 			case 10:
 				//Stop immediately, forbidden path
+				turnDegrees(90);
+				turnDegrees(90);
+
+				cross = true;
+
+				lastCross=7;
+				entryDirection=south;
+				currentPath=8;
+				exitDirection=west;
+				nextCross=7;
 				break;
 			case 11:
 				//Goal path
+				do {
+					calculateMotorSpeedFromLine(14, speedLimit);
+					findLine(&situation, lineLocations, sensors);
+				} while(situation == 1);
 				break;
 			case centerRobot:
 				//Discontinuate path
 				break;
 			case 13:
 				//Terrain path
+				//waste of time
 				break;
 			case 14:
 				//Forbidden port and race start
+				//waste of time
 				break;
 			case 16:
 				//Mid Race
@@ -280,9 +307,19 @@ void loop() {
 					findLine(&situation, lineLocations, sensors);
 					calculateMotorSpeedFromLine(lineLocations[1], speedLimit);
 				}
+
+				cross = true;
+
+
+				lastCross=7;
+				entryDirection=west;
+				currentPath=16;
+				exitDirection=south;
+				nextCross=8;
 				break;
 			case 18:
 				//End race and Tunnel/box
+				//waste of time
 				break;
 			}
 			//End Behavioral State Machine
