@@ -6,7 +6,7 @@
 #define REVERSE 1
 #define FORWARD 0
 
-#define centerRobot 1
+#define centerRobot 6
 
 #define leftMotorInterrupt 3
 #define rightMotorInterrupt 2
