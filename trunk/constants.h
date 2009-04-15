@@ -6,10 +6,10 @@
 #define REVERSE 1
 #define FORWARD 0
 
+#define centerRobot 12
+
 #define leftMotorInterrupt 3
 #define rightMotorInterrupt 2
-
-#define cross 128
 
 #define startButton 7 //??
 

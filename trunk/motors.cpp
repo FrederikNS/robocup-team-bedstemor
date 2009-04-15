@@ -7,6 +7,7 @@
 
 #include "constants.h"
 
+
 void setLeftMotor(unsigned char speed, char direction) {
 	digitalWrite(leftMotorDirectionPin,!direction);
 	if(!direction) {
