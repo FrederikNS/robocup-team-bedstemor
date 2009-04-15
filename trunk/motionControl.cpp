@@ -15,7 +15,7 @@
 #define factor multiplyFixed(speedLimit,14)
 #define degreeToTickFactor 8.1*1000
 
-#define ticksPerCentimeter(x) ((250*x)/47)
+#define ticksPerCentimeter(x) ((2500*x)/47)
 
 volatile int leftTick = 0;
 volatile int rightTick = 0;
@@ -247,7 +247,7 @@ void goLeft() {
 	turnDegrees(90);
 	stop(FORWARD);
 }
-	
+
 void goRight() {
 	stop(FORWARD);
 	goDistance(centerRobot, FORWARD);
