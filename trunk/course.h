@@ -44,11 +44,13 @@ unsigned char weights[8][4] = {
 //{north,south,east,west}
 /*1*/{1,0,0,0},
 /*2*/{1,0,0,2},
-/*3*/{2,0,0,1},
-/*4*/{0,0,0,1},
+/*3*/{0,0,2,1},
+/*4*/{0,1,0,0},
 /*5*/{0,1,0,0},
 /*6*/{2,1,0,0},
 /*7*/{0,1,0,2},
 /*8*/{0,1,0,0}};
 
-char visits[8][4];
+char visits[18] = {true,false,false,false,false,
+false,false,false,false,false,false,false,false,
+false,false,false,false,false};
