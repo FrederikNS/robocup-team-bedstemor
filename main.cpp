@@ -19,7 +19,7 @@
 
 void setup() {
 	Serial.begin(9600); //Set serial baud rate
-	
+
 	//Assign pins
 	pinMode(leftMotorSpeedPin, OUTPUT);
 	pinMode(leftMotorDirectionPin, OUTPUT);
@@ -44,37 +44,37 @@ void loop() {
 	/*while(1) {
 	 Serial.println(analogRead(getDistanceData));
 	 }*/
-	
+
 	while(analogRead(getDistanceData) <= 100){}
 #ifdef DEBUG
 	Serial.println("Start");
 #endif
-	
+
 	digitalWrite(enableMotor, 1); //Enable motors
 	digitalWrite(enableLight, 1); //Enable light
-	
+
 	//Whereabout details
 	byte currentPath = 1; //The path the robot is on currently
 	byte lastCross = 0; //The last cross the robot passed
 	byte nextCross = 1; //The next cross the robot will encounter
 	byte entryDirection = east; //The direction the start of the path meets the cross
 	byte exitDirection = south; //The direction the robot will enter the next cross
-	
+
 	/*//Race
 	 byte currentPath = 14; //The path the robot is on currently
 	 byte lastCross = 6; //The last cross the robot passed
 	 byte nextCross = 7; //The next cross the robot will encounter
 	 byte entryDirection = east; //The direction the start of the path meets the cross
 	 byte exitDirection = east; //The direction the robot will enter the next cross*/
-	
+
 	bool cross = 0;
 	//Cross Priority
 	byte preferredDirection = 5; //The way the robot will prefer going
 	byte preferredDirectionValue = 0; //The priority the preferredPath has
-	
+
 	int sensors[8]; //Array for the sensor values
 	int lineLocations[2]; //Array for location of lines
-	
+
 	/*What situation the robot is currently in
 	 -3: Robot sees a branch to both sides
 	 -2: Robot sees a branch to the (left/right)
@@ -83,21 +83,21 @@ void loop() {
 	 1: Robot sees one line
 	 2: Robot sees two lines */
 	char situation = 1;
-	
+
 	byte gatesSeen[18]; //Gate count array
 	unsigned long gatetimeout; //variable to keep track of time since last gate to avoid detecting a gate twice
-	
+
 	int speedLimit = 255;//Variable for limiting the speed of the robot
-	
+
 	bool run; //Variable to keep track of when to break loops
-	
+
 	byte i; //Iteration variable
-	
+
 	int startTime = 0;
 	int targetTime = 0;
 	int temp = 0;
-	
-	
+
+
 	while(1) {
 		//Cross handling
 #ifdef DEBUG
@@ -120,7 +120,7 @@ void loop() {
 #endif
 					//Simple paths, just follow line
 					findLine(&situation, lineLocations, sensors);
-					
+
 #ifdef DEBUG
 					Serial.println("Sensors Read");
 #endif
@@ -180,19 +180,19 @@ void loop() {
 							break;
 						}
 					}
-					
+
 					goDistance(40,FORWARD);
 					turnDegrees(-90);
 					goDistance(110, FORWARD);
-					
+
 					setBothMotors(150, FORWARD);
-					
-					
+
+
 					situation = 0;
 					while(situation==0) {findLine(&situation, lineLocations, sensors);}
-					
+
 					turnDegrees(30);
-					
+
 					lastCross=0;
 					entryDirection=east;
 					currentPath=1;
@@ -208,7 +208,7 @@ void loop() {
 						findLine(&situation, lineLocations, sensors);
 						calculateMotorSpeedFromLine(lineLocations[1], speedLimit);
 					}
-					
+
 					break;
 				case 4:
 					//Stairs
@@ -233,9 +233,9 @@ void loop() {
 						findLine(&situation, lineLocations, sensors);
 					} while(situation == 0);
 					stop(FORWARD);
-					
+
 					cross = true;
-					
+
 					lastCross=4;
 					entryDirection=west;
 					currentPath=7;
@@ -245,9 +245,9 @@ void loop() {
 				case 8:
 					turnDegrees(90);
 					turnDegrees(90);
-					
+
 					cross = true;
-					
+
 					lastCross=8;
 					entryDirection=east;
 					currentPath=10;
@@ -258,9 +258,9 @@ void loop() {
 					//Stop immediately, forbidden path
 					turnDegrees(90);
 					turnDegrees(90);
-					
+
 					cross = true;
-					
+
 					lastCross=7;
 					entryDirection=south;
 					currentPath=8;
@@ -274,8 +274,26 @@ void loop() {
 						findLine(&situation, lineLocations, sensors);
 					} while(situation == 1);
 					break;
-				case 12:
-					//Discontinuate path
+				case 12://centerRobot:
+				//Discontinuate path
+				switch(lastCross) {
+				case 3:
+					do {
+						calculateMotorSpeedFromLine(14, speedLimit);
+						findLine(&situation, lineLocations, sensors);
+					} while (situation == 0);
+					while(situation == 1) {
+						findLine(&situation, lineLocations, sensors);
+						calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
+					}
+
+					cross = true;
+
+					lastCross=3;
+					entryDirection=south;
+					currentPath=12;
+					exitDirection=west;
+					nextCross=7;
 					break;
 				case 13:
 					//Terrain path
@@ -286,46 +304,47 @@ void loop() {
 					//waste of time
 					break;
 				case 16:
-					//Mid Race
-					startTime = millis();
-					while(!gateSensor()) {
-						findLine(&situation, lineLocations, sensors);
-						calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
-					}
-					temp = millis();
-					targetTime = temp - startTime;
-					startTime = temp;
-					
-					while(startTime + targetTime < millis()) {
-						findLine(&situation, lineLocations, sensors);
-						calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
-					}
-					turnDegrees(90);
-					goDistance(20, FORWARD);
-					turnDegrees(-90);
-					goDistance(10, FORWARD);
-					turnDegrees(90);
-					goDistance(5, FORWARD);
-					turnDegrees(90);
-					goDistance(30, FORWARD);
-					turnDegrees(90);
-					do {
-						calculateMotorSpeedFromLine(14, speedLimit);
-						findLine(&situation, lineLocations, sensors);
-					} while(situation == 0);
-					while(situation==2) {
-						findLine(&situation, lineLocations, sensors);
-						calculateMotorSpeedFromLine(lineLocations[1], speedLimit);
-					}
-					
-					cross = true;
-					
-					lastCross=7;
-					entryDirection=west;
-					currentPath=16;
-					exitDirection=south;
-					nextCross=8;
-					break;
+				//Mid Race
+				startTime = millis();
+				while(!gateSensor()) {
+					findLine(&situation, lineLocations, sensors);
+					calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
+				}
+				temp = millis();
+				targetTime = temp - startTime;
+				startTime = temp;
+
+				while(startTime + targetTime < millis()) {
+					findLine(&situation, lineLocations, sensors);
+					calculateMotorSpeedFromLine(lineLocations[0], speedLimit);
+				}
+				turnDegrees(90);
+				goDistance(20, FORWARD);
+				turnDegrees(-90);
+				goDistance(10, FORWARD);
+				turnDegrees(90);
+				goDistance(5, FORWARD);
+				turnDegrees(90);
+				goDistance(30, FORWARD);
+				turnDegrees(90);
+				do {
+					calculateMotorSpeedFromLine(14, speedLimit);
+					findLine(&situation, lineLocations, sensors);
+				} while(situation == 0);
+				while(situation==2) {
+					findLine(&situation, lineLocations, sensors);
+					calculateMotorSpeedFromLine(lineLocations[1], speedLimit);
+				}
+
+				cross = true;
+
+
+				lastCross=7;
+				entryDirection=west;
+				currentPath=16;
+				exitDirection=south;
+				nextCross=8;
+				break;
 				case 18:
 					//End race and Tunnel/box
 					//waste of time
@@ -347,7 +366,7 @@ void loop() {
 			Serial.print("Preferred path: ");
 			Serial.println((int)preferredDirection);
 #endif
-			
+
 			//Turn the robot to the preferredPath
 			switch(exitDirection) {
 				case north:
@@ -404,7 +423,7 @@ void loop() {
 					break;
 			}
 			stop(FORWARD);
-			
+
 			//Set whereabout variables
 			lastCross = nextCross;
 			entryDirection = preferredDirection;
@@ -425,7 +444,7 @@ void loop() {
 			Serial.println((int)nextCross);
 			//End Cross Handling
 		}
-		
+
 	}
 }
 
