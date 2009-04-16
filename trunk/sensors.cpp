@@ -9,6 +9,12 @@
 #include "WProgram.h"
 #include "constants.h"
 
+/*
+ * Function for filling an integer array with data from the sensors.
+ * The higher the value, the more light the sensors detected.
+ * The lower the value, the less light the sensors have detected and the higher the
+ * probability that it is looking at a line.
+ */
 void fillSensorData(int array[8]) {
 	int i;
 	for(i = 7; i >= 0; i--) {
@@ -33,6 +39,10 @@ void fillSensorData(int array[8]) {
 	Serial.println();*/
 }
 
+/*
+ * Function for detecting a gate using a distance sensor.
+ * Returns true if something is withing the range of the sensor.
+ */
 bool gateSensor() {
 	return (digitalRead(getDistanceData) == HIGH) ? true: false;
 }
